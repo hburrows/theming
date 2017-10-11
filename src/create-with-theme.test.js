@@ -1,7 +1,11 @@
+global.requestAnimationFrame = function(callback) {
+  setTimeout(callback, 0);
+};
+
 import test from 'ava';
 import React, { Component } from 'react';
-import { mount, shallow } from 'enzyme';
-
+import { mount, shallow, configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 import isFunction from 'is-function';
 import createWithTheme from './create-with-theme';
 import channel from './channel';
@@ -14,6 +18,12 @@ import {
   mountOptions,
   getInterceptor,
 } from './test-helpers';
+
+configure({ adapter: new Adapter() });
+
+global.requestAnimationFrame = function(callback) {
+  setTimeout(callback, 0);
+};
 
 test(`createWithTheme's type`, t => {
   const actual = isFunction(createWithTheme);
